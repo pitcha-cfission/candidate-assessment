@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidate Skill Self-Assessment | Recruiter Screening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --surface: #ffffff;
+    --text: #172033;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --blue: #2563eb;
+    --blue-hover: #1d4ed8;
+    --blue-soft: #eff6ff;
+    --green: #059669;
+    --green-hover: #047857;
+    --amber: #d97706;
+    --red: #dc2626;
+    --radius: 16px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Noto Sans Thai', Tahoma, sans-serif;
+    line-height: 1.55;
+    padding: 24px 14px 56px;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: auto;
+  }
+
+  /* Header Section */
+  .header {
+    margin-bottom: 22px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 99px;
+    background: var(--blue-soft);
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .03em;
+  }
+
+  .header h1 {
+    font-size: clamp(24px, 4vw, 34px);
+    margin: 10px 0 5px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .header p {
+    color: var(--muted);
+    margin: 0;
+    max-width: 780px;
+    font-size: 15px;
+  }
+
+  /* Navigation Tabs */
+  .page-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 0 0 18px;
+  }
+
+  .nav-btn {
+    border: 1px solid var(--line);
+    background: #ffffff;
+    color: #334155;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .nav-btn:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+  }
+
+  .nav-btn.active {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #ffffff;
+  }
+
+  .page {
+    display: none;
+  }
+
+  .page.active {
+    display: block;
+  }
+
+  /* Main Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+    gap: 18px;
+    align-items: start;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  }
+
+  .panel h2 {
+    font-size: 19px;
+    margin: 0 0 5px;
+    font-weight: 700;
+  }
+
+  .sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0 0 18px;
+  }
+
+  .section {
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .section:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .section h3 {
+    font-size: 15px;
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+
+  /* Form Fields */
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .field[hidden] {
+    display: none;
+  }
+
+  .field label {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    padding: 10px 11px;
+    font: inherit;
+    font-size: 14px;
+    background: #ffffff;
+    color: var(--text);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus,
+  .skill-block textarea:focus,
+  .english-item select:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+
+  .field textarea {
+    min-height: 76px;
+    resize: vertical;
+  }
+
+  .field small {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .required {
+    color: var(--red);
+  }
+
+  /* Technical Skills Blocks */
+  .skill-block {
+    padding: 14px 0;
+    border-top: 1px solid #eef2f7;
+  }
+
+  .skill-block:first-child {
+    border-top: 0;
+    padding-top: 4px;
+  }
+
+  .skill-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .skill-title {
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .skilldesc {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 3px 0 10px;
+  }
+
+  .skill-tag {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 99px;
+    background: var(--blue-soft);
+    color: var(--blue-hover);
+  }
+
+  .skill-tag.optional {
+    background: #f1f5f9;
+    color: var(--muted);
+  }
+
+  .skill-block textarea {
+    width: 100%;
+    min-height: 68px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    padding: 10px 11px;
+    font: inherit;
+    font-size: 13px;
+    resize: vertical;
+  }
+
+  /* English Grid */
+  .english-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .english-item {
+    background: #f8fafc;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .english-item strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .english-item select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #ffffff;
+    font: inherit;
+    font-size: 13px;
+  }
+
+  /* PDPA Box */
+  .pdpa-notice {
+    margin: 14px 0 12px;
+    padding: 12px 14px;
+    border: 1px solid #dbeafe;
+    background: #f8fbff;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #334155;
+  }
+
+  .pdpa-notice strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text);
+  }
+
+  .consent-label {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    font-size: 12px;
+    color: #475569;
+    cursor: pointer;
+  }
+
+  .consent-label input {
+    margin-top: 3px;
+    width: 15px;
+    height: 15px;
+    accent-color: var(--blue);
+  }
+
+  /* Action Buttons */
+  .actions {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+  }
+
+  .btn {
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 16px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, opacity 0.2s ease, transform 0.1s ease;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .primary {
+    background: var(--blue);
+    color: #ffffff;
+  }
+
+  .primary:hover:not(:disabled) {
+    background: var(--blue-hover);
+  }
+
+  .success {
+    background: var(--green);
+    color: #ffffff;
+  }
+
+  .success:hover:not(:disabled) {
+    background: var(--green-hover);
+  }
+
+  .secondary {
+    background: #eef2f7;
+    color: #334155;
+  }
+
+  .secondary:hover:not(:disabled) {
+    background: #e2e8f0;
+  }
+
+  .danger {
+    background: #fef2f2;
+    color: var(--red);
+  }
+
+  .danger:hover:not(:disabled) {
+    background: #fee2e2;
+  }
+
+  /* Custom Toast / Inline Status Banners (No native alert/confirm) */
+  .status-box {
+    display: none;
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .status-box.ok {
+    display: block;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+  }
+
+  .status-box.err {
+    display: block;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+  }
+
+  .status-box.info {
+    display: block;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+  }
+
+  /* Confirmation Modal */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .modal-backdrop.open {
+    display: flex;
+  }
+
+  .modal-card {
+    background: #ffffff;
+    border-radius: 14px;
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-card h4 {
+    margin: 0 0 8px;
+    font-size: 16px;
+  }
+
+  .modal-card p {
+    margin: 0 0 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  /* Sidebar */
+  .side {
+    position: sticky;
+    top: 16px;
+  }
+
+  .metric {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+  }
+
+  .metric:last-of-type {
+    border-bottom: 0;
+  }
+
+  .result {
+    margin-top: 16px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    background: #ffffff;
+  }
+
+  .result h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+  }
+
+  .result p {
+    font-size: 13px;
+    margin: 6px 0;
+    color: #475569;
+  }
+
+  .notice {
+    font-size: 12px;
+    color: #92400e;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 9px;
+    padding: 10px 12px;
+    margin-top: 12px;
+  }
+
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  /* Job Descriptions (JD) Tab */
+  .jd-layout {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .jd-list {
+    position: sticky;
+    top: 16px;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .jd-role-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    border-bottom: 1px solid #eef2f7;
+    background: #ffffff;
+    padding: 11px 12px;
+    color: #334155;
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    border-radius: 8px;
+    transition: background-color 0.15s ease;
+  }
+
+  .jd-role-btn:last-child {
+    border-bottom: 0;
+  }
+
+  .jd-role-btn:hover,
+  .jd-role-btn.active {
+    background: var(--blue-soft);
+    color: var(--blue-hover);
+    font-weight: 700;
+  }
+
+  .jd-content h2 {
+    margin-bottom: 4px;
+  }
+
+  .jd-content .jd-intro {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 0 0 16px;
+  }
+
+  .jd-section {
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .jd-section h3 {
+    font-size: 15px;
+    margin: 0 0 8px;
+  }
+
+  .jd-section ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #334155;
+    font-size: 13px;
+  }
+
+  .jd-section li {
+    margin: 5px 0;
+  }
+
+  .jd-content .field textarea {
+    min-height: 80px;
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 850px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .side {
+      position: static;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .jd-layout {
+      grid-template-columns: 1fr;
+    }
+    .jd-list {
+      position: static;
+      max-height: 260px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    body {
+      padding: 15px 10px 35px;
+    }
+    .panel {
+      padding: 16px;
+    }
+    .grid2,
+    .english-grid {
+      grid-template-columns: 1fr;
+    }
+    .skill-head {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  @media print {
+    body {
+      background: #ffffff;
+      padding: 0;
+    }
+    .panel {
+      box-shadow: none;
+      break-inside: avoid;
+    }
+    .side {
+      position: static;
+    }
+    .actions,
+    .page-nav,
+    .status-box {
+      display: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Header -->
+  <header class="header">
+    <span class="eyebrow">RECRUITMENT TOOL · PRE-SCREENING</span>
+    <h1>Candidate Skill Self-Assessment</h1>
+    <p>Candidate Skill Self-Assessment — Please assess your skills and provide supporting experience to help the Recruitment Team conduct an initial screening.</p>
+  </header>
+
+  <!-- Two-Tab Navigation -->
+  <div class="page-nav" aria-label="Main pages">
+    <button class="nav-btn active" type="button" data-page="assessmentPage">Candidate Assessment</button>
+    <button class="nav-btn" type="button" data-page="jdPage">Job Descriptions (JD)</button>
+  </div>
+
+  <!-- Tab 1: Candidate Assessment -->
+  <div class="page active" id="assessmentPage">
+    <div class="layout">
+      <main class="panel">
+        <h2>Candidate Information</h2>
+        <p class="sub">Please complete your basic information and select the position you are applying for.</p>
+
+        <!-- Basic Info Section -->
+        <div class="section">
+          <div class="grid2">
+            <div class="field">
+              <label for="candidate">Full Name <span class="required">*</span></label>
+              <input id="candidate" placeholder="Enter your full name" required>
+            </div>
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input id="email" type="email" placeholder="name@email.com">
+            </div>
+            <div class="field">
+              <label for="phone">Phone Number</label>
+              <input id="phone" type="tel" placeholder="08X-XXX-XXXX">
+            </div>
+            <div class="field">
+              <label for="role">Position Applied For <span class="required">*</span></label>
+              <select id="role">
+                <option value="">Select a position</option>
+                <option>Project Manager</option>
+                <option>Product Owner</option>
+                <option>Project Coordinator</option>
+                <option>Business System Analyst</option>
+                <option>Business Analyst</option>
+                <option>System Analyst</option>
+                <option>Technical Lead</option>
+                <option>Full-Stack Developer</option>
+                <option>Front-end Developer</option>
+                <option>Back-end Developer</option>
+                <option>QA Engineer / Software Tester</option>
+                <option>QA Automation Engineer</option>
+                <option>Data Engineer</option>
+                <option>Data Analyst</option>
+                <option>BI Developer</option>
+                <option>Infrastructure &amp; Security Engineer</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="field" id="otherRoleField" hidden>
+              <label for="otherRole">Please Specify Position <span class="required">*</span></label>
+              <input id="otherRole" placeholder="Enter the position you are applying for">
+            </div>
+            <div class="field">
+              <label for="years">Relevant Work Experience <span class="required">*</span></label>
+              <select id="years">
+                <option value="">Select experience</option>
+                <option>1–3 years</option>
+                <option>3–5 years</option>
+                <option>5–8 years</option>
+                <option>8+ years</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="notice">Availability</label>
+              <select id="notice">
+                <option>Immediately</option>
+                <option>Within 15 days</option>
+                <option>Within 30 days</option>
+                <option>More than 30 days</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Skills Self-Assessment Section -->
+        <div class="section">
+          <h3>Technical Skills Self-Assessment</h3>
+          <div id="skills"></div>
+          <div class="skill-block">
+            <div class="skill-head">
+              <div class="skill-title">English Proficiency</div>
+              <span class="skill-tag">REQUIRED</span>
+            </div>
+            <div class="english-grid" id="englishSkills"></div>
+          </div>
+        </div>
+
+        <!-- Experience & Supporting Information Section -->
+        <div class="section">
+          <h3>Experience &amp; Supporting Information</h3>
+          <div class="field">
+            <label for="project">Relevant Projects / Work Experience (include your role and outcomes)</label>
+            <textarea id="project" placeholder="Describe projects, tools used, your responsibilities, and outcomes."></textarea>
+          </div>
+          <div class="field">
+            <label for="evidence">Portfolio / GitHub / Dashboard / Certificate URL</label>
+            <input id="evidence" placeholder="https://...">
+          </div>
+          <div class="field">
+            <label for="note">Additional Information</label>
+            <textarea id="note" placeholder="Share any additional skills or context for the Recruitment Team."></textarea>
+          </div>
+          <div class="field">
+            <label for="softSkills">Soft Skills</label>
+            <textarea id="softSkills" placeholder="Describe your communication, problem-solving, teamwork, leadership, adaptability, and other relevant soft skills."></textarea>
+          </div>
+          <div class="field">
+            <label for="resume">CV / Resume <span class="required">*</span></label>
+            <input id="resume" type="file" accept=".pdf,.doc,.docx" required>
+            <small>Accepted formats: PDF, DOC, DOCX (Max 15MB)</small>
+          </div>
+
+          <div class="pdpa-notice">
+            <strong>Personal Data Protection Notice (PDPA)</strong>
+            The Recruitment Team will collect and use your personal data, including contact details, CV, education, work experience, and skills, to assess your qualifications, contact you, and manage your job application. Your information may be shared with relevant hiring managers and service providers involved in the recruitment process. We will retain your data only for as long as necessary for these purposes or as required by law. You may exercise your rights under the Personal Data Protection Act B.E. 2562 (2019), subject to applicable conditions, by contacting the Recruitment Team at <em>recruit@cfission.net</em>.
+          </div>
+
+          <label class="consent-label">
+            <input type="checkbox" id="consent" required>
+            <span>I acknowledge that I have read and understood this Personal Data Protection Notice. I confirm that the information provided is accurate to the best of my knowledge. <span class="required">*</span></span>
+          </label>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions">
+          <button type="button" class="btn success" id="submitDrive">Submit Application</button>
+          <button type="button" class="btn primary" id="evaluate">Validate Form</button>
+          <button type="button" class="btn secondary" id="print">Print / Save as PDF</button>
+          <button type="button" class="btn secondary" id="csv">Export CSV</button>
+          <button type="button" class="btn danger" id="reset">Clear Form</button>
+        </div>
+
+        <!-- Feedback Status Banner -->
+        <div id="submitStatus" class="status-box" role="status"></div>
+      </main>
+
+      <!-- Sticky Sidebar -->
+      <aside class="panel side">
+        <h2>Recruiter Screening Notes</h2>
+        <p class="sub">Use the candidate's responses as a starting point for an initial screening conversation.</p>
+        <div class="metric"><span>Required skill groups</span><b>5</b></div>
+        <div class="metric"><span>Optional skill groups</span><b>2</b></div>
+        <div class="metric"><span>English competencies</span><b>4 required</b></div>
+        <div class="result" id="result">
+          <h3>Screening Checklist</h3>
+          <p>Review the technologies listed under each skill group and compare them with the job requirements.</p>
+          <p>Use the project and work experience section to validate the candidate's hands-on experience, responsibilities, and outcomes.</p>
+          <p>Review Listening, Speaking, Reading, and Writing levels against the communication needs of the role.</p>
+        </div>
+        <div class="notice"><b>Important:</b> Candidate responses are self-reported and should be validated through interviews, practical tests, or work samples.</div>
+        <p class="hint">When submitted, responses are recorded to Google Sheets and the CV file is securely uploaded to Google Drive.</p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Tab 2: Job Descriptions (JD) -->
+  <div class="page" id="jdPage">
+    <div class="jd-layout">
+      <aside class="panel jd-list">
+        <h2>Job Descriptions</h2>
+        <p class="sub">Select a position to view its JD.</p>
+        <div id="jdRoleList"></div>
+      </aside>
+      <main class="panel jd-content" id="jdContent">
+        <h2 id="jdTitle">Select a position</h2>
+        <p class="jd-intro">Each job description includes Responsibilities, Qualifications, Required Skills, and Preferred Skills.</p>
+        <div id="jdSections"></div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Confirmation Modal (Replaces native confirm) -->
+<div class="modal-backdrop" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <h4 id="modalTitle">Clear All Information?</h4>
+    <p>Are you sure you want to clear all form information and assessment responses? This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn secondary" id="cancelResetBtn">Cancel</button>
+      <button type="button" class="btn danger" id="confirmResetBtn">Yes, Clear Form</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Replace with your deployed Google Apps Script Web App URL
+  const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+
+  // Complete Job Descriptions dataset for all 17 roles
+  const jdData = {
+    "Project Manager": {
+      "Responsibilities": [
+        "Lead projects from initiation through delivery, managing scope, schedule, budget, resources, and quality.",
+        "Coordinate cross-functional teams, vendors, and stakeholders; communicate progress, risks, issues, and dependencies.",
+        "Maintain project plans, status reports, RAID logs, and governance activities.",
+        "Manage change requests, resolve delivery blockers, and ensure outcomes meet business objectives."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in IT, Computer Science, Business, Engineering, or a related field.",
+        "Experience managing IT or digital projects and coordinating multidisciplinary teams.",
+        "Strong stakeholder management, planning, problem-solving, and communication skills."
+      ],
+      "Required Skills": [
+        "Project planning, scope and schedule management, risk and issue management.",
+        "Agile/Scrum and/or Waterfall delivery practices.",
+        "Project reporting, stakeholder communication, and tools such as Jira, MS Project, or equivalent."
+      ],
+      "Preferred Skills": [
+        "PMP, PRINCE2, PSM, or other relevant certification.",
+        "Experience in banking, payments, e-commerce, or enterprise transformation.",
+        "Exposure to budgets, procurement, vendor management, and change management."
+      ]
+    },
+    "Product Owner": {
+      "Responsibilities": [
+        "Define product vision, goals, roadmap, and measurable outcomes with stakeholders.",
+        "Own and prioritize the product backlog based on customer value, business impact, and delivery effort.",
+        "Write and refine user stories and acceptance criteria; clarify requirements for delivery teams.",
+        "Work closely with design, engineering, QA, and business teams; review releases and product performance."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in IT, Business, or a related discipline, or equivalent experience.",
+        "Experience in product ownership, product management, business analysis, or software delivery.",
+        "Ability to balance customer needs, business priorities, and technical constraints."
+      ],
+      "Required Skills": [
+        "Product backlog management, prioritization, user stories, and acceptance criteria.",
+        "Agile/Scrum practices and stakeholder communication.",
+        "Analytical thinking, product metrics, and decision-making."
+      ],
+      "Preferred Skills": [
+        "PSPO/CSPO or equivalent certification.",
+        "Experience with digital products, mobile/web platforms, APIs, or e-commerce.",
+        "Exposure to UX research, experimentation, analytics, and roadmap tools."
+      ]
+    },
+    "Project Coordinator": {
+      "Responsibilities": [
+        "Support project managers with plans, schedules, meeting coordination, and follow-up actions.",
+        "Track milestones, deliverables, dependencies, risks, and issue status.",
+        "Prepare meeting minutes, project documentation, reports, and status updates.",
+        "Coordinate communication across teams, vendors, and stakeholders."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in IT, Business Administration, or a related field.",
+        "Experience in project administration, coordination, PMO, or a similar role is an advantage.",
+        "Strong organization, attention to detail, and follow-through."
+      ],
+      "Required Skills": [
+        "Scheduling, documentation, action tracking, and status reporting.",
+        "Proficiency in Microsoft Office or Google Workspace.",
+        "Clear written and verbal communication; coordination and time management."
+      ],
+      "Preferred Skills": [
+        "Experience with Jira, Confluence, MS Project, or other project tools.",
+        "Understanding of Agile, Scrum, and Waterfall.",
+        "Exposure to IT or software development projects."
+      ]
+    },
+    "Business System Analyst": {
+      "Responsibilities": [
+        "Analyze business processes and translate needs into system requirements and functional specifications.",
+        "Facilitate workshops and interviews; document workflows, use cases, user stories, and business rules.",
+        "Work with developers, architects, QA, and business users to clarify requirements and solution design.",
+        "Support UAT, defect triage, release readiness, and post-implementation review."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in IT, Computer Science, Business, or a related field.",
+        "Experience in system analysis, business analysis, or software implementation.",
+        "Ability to communicate effectively with both technical and non-technical stakeholders."
+      ],
+      "Required Skills": [
+        "Requirements elicitation, process analysis, functional specification, and documentation.",
+        "UML/BPMN, flowcharts, use cases, or equivalent modeling techniques.",
+        "SQL and understanding of databases, APIs, integrations, and SDLC."
+      ],
+      "Preferred Skills": [
+        "Experience with Jira, Confluence, Draw.io, Visio, or Postman.",
+        "Knowledge of REST APIs, JSON, microservices, or enterprise systems.",
+        "Domain experience in banking, insurance, payments, retail, or e-commerce."
+      ]
+    },
+    "Business Analyst": {
+      "Responsibilities": [
+        "Understand business objectives, challenges, and stakeholder needs.",
+        "Gather, analyze, and document business requirements, processes, and improvement opportunities.",
+        "Translate findings into business requirements, user stories, process maps, and acceptance criteria.",
+        "Support solution evaluation, UAT, change adoption, and measurement of business outcomes."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in Business, IT, Economics, or a related field.",
+        "Experience in business analysis, process improvement, or project delivery.",
+        "Strong analytical, facilitation, and communication capabilities."
+      ],
+      "Required Skills": [
+        "Requirements gathering, business process mapping, and gap analysis.",
+        "Stakeholder interviews, workshop facilitation, and documentation.",
+        "Analytical problem-solving and clear presentation of findings."
+      ],
+      "Preferred Skills": [
+        "SQL, Excel, Power BI, or other data analysis tools.",
+        "Agile/Scrum, BPMN, Lean, or process improvement experience.",
+        "Experience in a relevant business domain or digital transformation."
+      ]
+    },
+    "System Analyst": {
+      "Responsibilities": [
+        "Analyze system requirements and define functional and technical solution specifications.",
+        "Design system workflows, interfaces, data flows, and integration requirements.",
+        "Coordinate with developers, infrastructure teams, vendors, and business stakeholders.",
+        "Support system testing, troubleshooting, implementation, and technical documentation."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in Computer Science, IT, or a related field.",
+        "Experience in system analysis, application development, or system implementation.",
+        "Understanding of enterprise application architecture and software lifecycle."
+      ],
+      "Required Skills": [
+        "System analysis and design, data flow, interface, and integration documentation.",
+        "SQL and relational database concepts.",
+        "Understanding of APIs, SDLC, troubleshooting, and non-functional requirements."
+      ],
+      "Preferred Skills": [
+        "UML, sequence diagrams, ER diagrams, Visio, or Draw.io.",
+        "Cloud, security, microservices, or enterprise integration knowledge.",
+        "Experience with Java, .NET, JavaScript, or other development technologies."
+      ]
+    },
+    "Technical Lead": {
+      "Responsibilities": [
+        "Provide technical direction and guide engineers through design, development, code review, and delivery.",
+        "Define technical standards, architecture decisions, and engineering best practices.",
+        "Break down complex work, estimate effort, manage technical risks, and remove blockers.",
+        "Collaborate with product, business, QA, and infrastructure teams; mentor team members."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in Computer Science, IT, or equivalent practical experience.",
+        "Substantial hands-on software engineering experience and prior technical leadership.",
+        "Ability to make sound technical decisions and communicate trade-offs."
+      ],
+      "Required Skills": [
+        "Strong proficiency in one or more relevant programming languages and frameworks.",
+        "Software architecture, API design, databases, version control, and code review.",
+        "Debugging, performance, security fundamentals, and CI/CD practices."
+      ],
+      "Preferred Skills": [
+        "Experience designing scalable, distributed, or cloud-native systems.",
+        "Containerization and orchestration such as Docker and Kubernetes.",
+        "People mentoring, engineering management, or architecture certifications."
+      ]
+    },
+    "Full-Stack Developer": {
+      "Responsibilities": [
+        "Develop and maintain front-end and back-end components of web applications.",
+        "Build responsive user interfaces, server-side logic, APIs, and database integrations.",
+        "Write maintainable code, tests, and technical documentation; review peer code.",
+        "Troubleshoot issues, improve performance, and collaborate across product and engineering teams."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in Computer Science, IT, or equivalent experience.",
+        "Experience delivering web applications across client and server layers.",
+        "Understanding of software engineering principles and collaborative development."
+      ],
+      "Required Skills": [
+        "Proficiency in JavaScript/TypeScript and a back-end language such as Java, C#, Python, or Node.js.",
+        "Experience with a front-end framework and back-end framework.",
+        "REST APIs, SQL/NoSQL databases, Git, debugging, and testing fundamentals."
+      ],
+      "Preferred Skills": [
+        "Cloud platforms, Docker, Kubernetes, or serverless technologies.",
+        "CI/CD, automated testing, and application security practices.",
+        "Experience with microservices, caching, and performance optimization."
+      ]
+    },
+    "Front-end Developer": {
+      "Responsibilities": [
+        "Build responsive, accessible, and user-friendly web interfaces.",
+        "Translate UI/UX designs into reusable components and maintainable code.",
+        "Integrate front-end applications with APIs and manage application state.",
+        "Optimize performance, troubleshoot browser issues, and collaborate with designers and back-end developers."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in Computer Science, IT, or equivalent experience.",
+        "Experience developing modern web applications.",
+        "Good understanding of browser behavior, responsive design, and accessibility."
+      ],
+      "Required Skills": [
+        "HTML, CSS, JavaScript, and preferably TypeScript.",
+        "Experience with React, Angular, Vue, or a comparable framework.",
+        "API integration, Git, debugging, and front-end testing basics."
+      ],
+      "Preferred Skills": [
+        "Next.js, Nuxt, state management, or component libraries.",
+        "Accessibility standards, SEO, and web performance optimization.",
+        "Jest, Vitest, Cypress, or Playwright."
+      ]
+    },
+    "Back-end Developer": {
+      "Responsibilities": [
+        "Design, develop, and maintain server-side applications, services, and APIs.",
+        "Implement business logic, data models, integrations, and authentication/authorization.",
+        "Optimize reliability, scalability, performance, and security of services.",
+        "Write tests and documentation; investigate defects and support deployments."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in Computer Science, IT, or equivalent experience.",
+        "Experience building and supporting back-end services or enterprise applications.",
+        "Understanding of software design principles and production support."
+      ],
+      "Required Skills": [
+        "Proficiency in a back-end language such as Java, C#, Python, PHP, or Node.js.",
+        "RESTful APIs, databases, SQL, and data modeling.",
+        "Git, debugging, unit testing, and secure coding fundamentals."
+      ],
+      "Preferred Skills": [
+        "Microservices, message queues, caching, and distributed systems.",
+        "Docker, Kubernetes, cloud services, and CI/CD.",
+        "NoSQL databases, observability, and performance tuning."
+      ]
+    },
+    "QA Engineer / Software Tester": {
+      "Responsibilities": [
+        "Review requirements and prepare test scenarios, test cases, and test data.",
+        "Execute functional, regression, integration, and exploratory tests.",
+        "Log, track, retest, and report defects; collaborate with developers and business users.",
+        "Support UAT, release validation, and quality reporting."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in IT, Computer Science, or a related field.",
+        "Experience in software testing or quality assurance is preferred.",
+        "Strong attention to detail, analytical thinking, and communication."
+      ],
+      "Required Skills": [
+        "Software testing lifecycle, test design techniques, and defect management.",
+        "Manual testing of web, mobile, or enterprise applications.",
+        "Ability to document test evidence and use issue tracking tools."
+      ],
+      "Preferred Skills": [
+        "SQL and API testing using Postman or similar tools.",
+        "Knowledge of Agile/Scrum and test management tools.",
+        "Basic automation, performance, or security testing exposure."
+      ]
+    },
+    "QA Automation Engineer": {
+      "Responsibilities": [
+        "Design, develop, and maintain automated test frameworks and test scripts.",
+        "Automate functional, regression, API, and end-to-end testing.",
+        "Integrate automated tests into CI/CD pipelines and monitor test results.",
+        "Analyze failures, report defects, and collaborate with engineering teams to improve quality."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in Computer Science, IT, or equivalent experience.",
+        "Experience in test automation and software quality engineering.",
+        "Strong programming and analytical skills."
+      ],
+      "Required Skills": [
+        "Programming or scripting with Java, JavaScript/TypeScript, Python, or C#.",
+        "Automation tools such as Selenium, Cypress, Playwright, or Appium.",
+        "API testing, Git, test design, debugging, and CI/CD fundamentals."
+      ],
+      "Preferred Skills": [
+        "Framework design, parallel execution, and test data management.",
+        "Performance testing with JMeter or k6.",
+        "Docker, cloud testing, and reporting/observability tools."
+      ]
+    },
+    "Data Engineer": {
+      "Responsibilities": [
+        "Design, build, and maintain scalable data pipelines and data integration processes.",
+        "Develop ETL/ELT workflows to ingest, transform, validate, and publish data.",
+        "Model and optimize data warehouses, lakehouses, and analytical data stores.",
+        "Monitor data quality, pipeline reliability, performance, and access controls."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in Computer Science, Data Engineering, IT, or a related field.",
+        "Experience developing data pipelines or working with data platforms.",
+        "Strong problem-solving skills and understanding of data lifecycle."
+      ],
+      "Required Skills": [
+        "SQL and Python or another data engineering language.",
+        "ETL/ELT, data modeling, orchestration, and data quality concepts.",
+        "Relational databases, data warehouses, Git, and pipeline troubleshooting."
+      ],
+      "Preferred Skills": [
+        "Spark/PySpark, Databricks, Kafka, Airflow, or dbt.",
+        "Cloud data services on AWS, Azure, or GCP.",
+        "Lakehouse architecture, streaming data, and CI/CD for data."
+      ]
+    },
+    "Data Analyst": {
+      "Responsibilities": [
+        "Collect, clean, analyze, and interpret data to answer business questions.",
+        "Build dashboards, reports, and recurring performance metrics.",
+        "Identify trends, patterns, and insights; communicate recommendations to stakeholders.",
+        "Work with business teams to define KPIs and improve data quality and reporting processes."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in Data Analytics, Statistics, IT, Business, or a related field.",
+        "Experience in data analysis, reporting, or business intelligence is preferred.",
+        "Ability to explain analytical findings to non-technical audiences."
+      ],
+      "Required Skills": [
+        "SQL, Excel, and data cleaning/manipulation.",
+        "Power BI, Tableau, or similar visualization tools.",
+        "Basic statistics, analytical thinking, and data storytelling."
+      ],
+      "Preferred Skills": [
+        "Python or R with Pandas and visualization libraries.",
+        "DAX, data modeling, and experience with cloud data platforms.",
+        "A/B testing, forecasting, or introductory machine learning."
+      ]
+    },
+    "BI Developer": {
+      "Responsibilities": [
+        "Design, develop, and maintain BI solutions, semantic models, dashboards, and reports.",
+        "Gather reporting requirements and translate them into reliable data models and visualizations.",
+        "Develop data transformations and optimize queries, refresh processes, and report performance.",
+        "Ensure data accuracy, governance, access control, and documentation."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in IT, Computer Science, Data Analytics, or a related field.",
+        "Experience developing business intelligence reports or data solutions.",
+        "Strong understanding of business metrics and data presentation."
+      ],
+      "Required Skills": [
+        "Power BI or another BI platform; dashboard and report development.",
+        "SQL, data modeling, and ETL/ELT concepts.",
+        "DAX (for Power BI), KPI definition, data validation, and performance optimization."
+      ],
+      "Preferred Skills": [
+        "Power BI Service, gateways, deployment pipelines, and row-level security.",
+        "SSIS, Azure Data Factory, Databricks, or similar data integration tools.",
+        "Python, cloud data warehouses, and dimensional modeling."
+      ]
+    },
+    "Infrastructure & Security Engineer": {
+      "Responsibilities": [
+        "Implement, operate, and maintain IT infrastructure, networks, servers, cloud environments, and security controls.",
+        "Monitor system availability, performance, capacity, and security events.",
+        "Respond to incidents, troubleshoot infrastructure issues, and maintain recovery procedures.",
+        "Apply patches, hardening, access controls, backups, and infrastructure documentation."
+      ],
+      "Qualifications": [
+        "Bachelor’s degree in IT, Computer Engineering, Cybersecurity, or equivalent experience.",
+        "Experience in infrastructure, network, cloud operations, or information security.",
+        "Strong troubleshooting, documentation, and incident response skills."
+      ],
+      "Required Skills": [
+        "Networking, operating systems, server administration, and infrastructure monitoring.",
+        "Security fundamentals, identity and access management, patching, and backup/recovery.",
+        "Scripting or automation basics and incident/problem management."
+      ],
+      "Preferred Skills": [
+        "AWS, Azure, or GCP infrastructure and security services.",
+        "Firewalls, SIEM, endpoint protection, vulnerability management, or penetration testing exposure.",
+        "Certifications such as CCNA, Security+, AZ-104, AWS, or equivalent."
+      ]
+    },
+    "Others": {
+      "Responsibilities": [
+        "Define the key responsibilities and expected outcomes for the specified position.",
+        "Describe the main activities, stakeholders, deliverables, and scope of the role."
+      ],
+      "Qualifications": [
+        "Specify the required education, relevant experience, and role-specific background."
+      ],
+      "Required Skills": [
+        "List the essential technical, functional, domain, and communication skills required for the role."
+      ],
+      "Preferred Skills": [
+        "List additional tools, certifications, domain knowledge, or experience that would be advantageous."
+      ]
+    }
+  };
+
+  // Render JD List & Details
+  const jdListEl = document.getElementById("jdRoleList");
+  const jdTitleEl = document.getElementById("jdTitle");
+  const jdSectionsEl = document.getElementById("jdSections");
+
+  function renderJD(role) {
+    jdTitleEl.textContent = role;
+    jdSectionsEl.innerHTML = "";
+    const sections = jdData[role];
+
+    Object.entries(sections).forEach(([heading, items]) => {
+      const section = document.createElement("section");
+      section.className = "jd-section";
+      const title = document.createElement("h3");
+      title.textContent = heading;
+      const list = document.createElement("ul");
+      items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      });
+      section.append(title, list);
+      jdSectionsEl.appendChild(section);
+    });
+
+    if (role === "Others") {
+      const custom = document.createElement("section");
+      custom.className = "jd-section";
+      custom.innerHTML = '<h3>Customize this JD</h3><p class="jd-intro">Use this section as a starting template for a position not listed above.</p>';
+      ["Responsibilities", "Qualifications", "Required Skills", "Preferred Skills"].forEach(label => {
+        const field = document.createElement("div");
+        field.className = "field";
+        const lab = document.createElement("label");
+        lab.textContent = label;
+        const area = document.createElement("textarea");
+        area.placeholder = "Add position-specific " + label.toLowerCase() + "...";
+        field.append(lab, area);
+        custom.appendChild(field);
+      });
+      jdSectionsEl.appendChild(custom);
+    }
+
+    jdListEl.querySelectorAll(".jd-role-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.role === role);
+    });
+  }
+
+  Object.keys(jdData).forEach(role => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "jd-role-btn";
+    btn.dataset.role = role;
+    btn.textContent = role;
+    btn.addEventListener("click", () => renderJD(role));
+    jdListEl.appendChild(btn);
+  });
+  renderJD(Object.keys(jdData)[0]);
+
+  // Tab Switching Logic
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".nav-btn").forEach(x => x.classList.toggle("active", x === btn));
+      document.querySelectorAll(".page").forEach(x => x.classList.toggle("active", x.id === btn.dataset.page));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+
+  // Render Technical Skill Groups
+  const skillList = [
+    { id: "programming", name: "Programming Languages", required: true, desc: "List languages you use, such as Java, Python, JavaScript, C#, or SQL." },
+    { id: "frameworks", name: "Frameworks & Libraries", required: true, desc: "List frameworks and libraries, such as React, Angular, .NET, Spring, or Node.js." },
+    { id: "database", name: "Database", required: true, desc: "List databases, such as SQL Server, MySQL, PostgreSQL, Oracle, or MongoDB." },
+    { id: "tools", name: "Tools & Platforms", required: true, desc: "List tools and platforms, such as Jira, Git, Docker, Postman, Power BI, or Azure DevOps." },
+    { id: "testing", name: "Testing & Quality Assurance", required: false, desc: "List testing tools and practices, such as Selenium, Cypress, JMeter, or unit testing." },
+    { id: "cloud", name: "Cloud & Infrastructure", required: false, desc: "List cloud and infrastructure technologies, such as AWS, Azure, GCP, Kubernetes, or networking." },
+    { id: "methodology", name: "Methodology", required: true, desc: "List methodologies you have used, such as Agile, Scrum, Waterfall, Kanban, or SDLC." }
+  ];
+
+  const skillsEl = document.getElementById("skills");
+  skillList.forEach(s => {
+    const block = document.createElement("div");
+    block.className = "skill-block";
+    block.innerHTML = `
+      <div class="skill-head">
+        <div class="skill-title">${s.name} ${s.required ? '<span class="required">*</span>' : ''}</div>
+        <span class="skill-tag ${s.required ? "" : "optional"}">${s.required ? "REQUIRED" : "OPTIONAL"}</span>
+      </div>
+      <div class="skilldesc">${s.desc}</div>
+      <textarea id="${s.id}Text" placeholder="Enter technologies and relevant experience..." ${s.required ? "required" : ""}></textarea>
+    `;
+    skillsEl.appendChild(block);
+  });
+
+  // Render English Proficiency Items
+  const englishEl = document.getElementById("englishSkills");
+  ["Listening", "Speaking", "Reading", "Writing"].forEach(name => {
+    const item = document.createElement("div");
+    item.className = "english-item";
+    item.innerHTML = `
+      <strong>${name} <span class="required">*</span></strong>
+      <select id="english${name}" required>
+        <option value="">Select level</option>
+        <option>Basic</option>
+        <option>Elementary</option>
+        <option>Intermediate</option>
+        <option>Upper-Intermediate</option>
+        <option>Advanced</option>
+        <option>Fluent</option>
+      </select>
+    `;
+    englishEl.appendChild(item);
+  });
+
+  function getEnglish() {
+    return ["Listening", "Speaking", "Reading", "Writing"].map(name => ({
+      name,
+      value: document.getElementById("english" + name).value
+    }));
+  }
+
+  // Conditional "Others" Position Field
+  const roleSelect = document.getElementById("role");
+  const otherRoleField = document.getElementById("otherRoleField");
+  const otherRoleInput = document.getElementById("otherRole");
+  roleSelect.addEventListener("change", () => {
+    const isOther = roleSelect.value === "Others";
+    otherRoleField.hidden = !isOther;
+    otherRoleInput.required = isOther;
+    if (!isOther) otherRoleInput.value = "";
+  });
+
+  // Helper to show inline status banner (avoids native alert)
+  const statusBox = document.getElementById("submitStatus");
+  function showStatus(type, message) {
+    statusBox.className = "status-box " + type;
+    statusBox.textContent = message;
+    statusBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  // Form Validation
+  function validateForm() {
+    for (const [id, label] of [
+      ["candidate", "Full Name"],
+      ["role", "Position Applied For"],
+      ["years", "Relevant Work Experience"],
+      ["resume", "CV / Resume"]
+    ]) {
+      const el = document.getElementById(id);
+      if (!el.value) {
+        showStatus("err", "Please complete: " + label);
+        el.focus();
+        return false;
+      }
+    }
+
+    if (document.getElementById("role").value === "Others" && !document.getElementById("otherRole").value.trim()) {
+      showStatus("err", "Please specify the position you are applying for.");
+      document.getElementById("otherRole").focus();
+      return false;
+    }
+
+    const missing = skillList.filter(s => s.required && !document.getElementById(s.id + "Text").value.trim());
+    if (missing.length) {
+      showStatus("err", "Please complete required skill groups: " + missing.map(s => s.name).join(", "));
+      document.getElementById(missing[0].id + "Text").focus();
+      return false;
+    }
+
+    const missingEnglish = getEnglish().filter(x => !x.value);
+    if (missingEnglish.length) {
+      showStatus("err", "Please complete required English proficiency levels: " + missingEnglish.map(x => x.name).join(", "));
+      document.getElementById("english" + missingEnglish[0].name).focus();
+      return false;
+    }
+
+    if (!document.getElementById("consent").checked) {
+      showStatus("err", "Please acknowledge the Personal Data Protection Notice (PDPA).");
+      document.getElementById("consent").focus();
+      return false;
+    }
+
+    return true;
+  }
+
+  // Convert File to Base64 for Google Apps Script Upload
+  function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Data = reader.result.split(",")[1];
+        resolve(base64Data);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Submit Application to Google Drive & Google Sheets
+  document.getElementById("submitDrive").addEventListener("click", async () => {
+    if (!validateForm()) return;
+
+    if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL") {
+      showStatus("err", "Please configure GOOGLE_SCRIPT_URL with your deployed Google Apps Script Web App URL in the code before submitting.");
+      return;
+    }
+
+    const fileInput = document.getElementById("resume");
+    const file = fileInput.files[0];
+    if (file && file.size > 15 * 1024 * 1024) {
+      showStatus("err", "CV file size must not exceed 15MB.");
+      return;
+    }
+
+    const submitBtn = document.getElementById("submitDrive");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+    statusBox.className = "status-box";
+    statusBox.textContent = "";
+
+    try {
+      const base64File = await readFileAsBase64(file);
+      const position = document.getElementById("role").value === "Others"
+        ? document.getElementById("otherRole").value.trim()
+        : document.getElementById("role").value;
+
+      const payload = {
+        candidate: document.getElementById("candidate").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        position: position,
+        experience: document.getElementById("years").value,
+        availability: document.getElementById("notice").value,
+        programming: document.getElementById("programmingText").value.trim(),
+        frameworks: document.getElementById("frameworksText").value.trim(),
+        database: document.getElementById("databaseText").value.trim(),
+        tools: document.getElementById("toolsText").value.trim(),
+        testing: document.getElementById("testingText").value.trim(),
+        cloud: document.getElementById("cloudText").value.trim(),
+        methodology: document.getElementById("methodologyText").value.trim(),
+        englishListening: document.getElementById("englishListening").value,
+        englishSpeaking: document.getElementById("englishSpeaking").value,
+        englishReading: document.getElementById("englishReading").value,
+        englishWriting: document.getElementById("englishWriting").value,
+        softSkills: document.getElementById("softSkills").value.trim(),
+        project: document.getElementById("project").value.trim(),
+        evidence: document.getElementById("evidence").value.trim(),
+        note: document.getElementById("note").value.trim(),
+        consent: document.getElementById("consent").checked ? "Yes" : "No",
+        fileName: file.name,
+        mimeType: file.type || "application/octet-stream",
+        fileData: base64File
+      };
+
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      if (result.status === "success") {
+        showStatus("ok", "Application submitted and CV uploaded to Google Drive successfully. Thank you!");
+      } else {
+        throw new Error(result.message || "An error occurred while saving your application.");
+      }
+    } catch (err) {
+      showStatus("err", "Unable to submit application: " + err.message);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Application";
+    }
+  });
+
+  // Validate Form Button
+  document.getElementById("evaluate").addEventListener("click", () => {
+    if (validateForm()) {
+      showStatus("ok", "All required candidate information is complete. You can now submit the application or review responses for initial screening.");
+    }
+  });
+
+  // Print / Save as PDF Button
+  document.getElementById("print").addEventListener("click", () => {
+    window.print();
+  });
+
+  // Export CSV Button (with UTF-8 BOM for Thai/Excel compatibility)
+  document.getElementById("csv").addEventListener("click", () => {
+    if (!validateForm()) return;
+    const resume = document.getElementById("resume").files[0];
+    const rows = [
+      ["Full Name", document.getElementById("candidate").value],
+      ["Email", document.getElementById("email").value],
+      ["Phone", document.getElementById("phone").value],
+      ["Position", document.getElementById("role").value === "Others" ? document.getElementById("otherRole").value : document.getElementById("role").value],
+      ["Experience", document.getElementById("years").value],
+      ["Availability", document.getElementById("notice").value],
+      ["Resume File", resume?.name || ""]
+    ];
+    skillList.forEach(s => rows.push([s.name, document.getElementById(s.id + "Text").value]));
+    getEnglish().forEach(s => rows.push(["English - " + s.name, s.value]));
+    rows.push(
+      ["Soft Skills", document.getElementById("softSkills").value],
+      ["Projects", document.getElementById("project").value],
+      ["Portfolio", document.getElementById("evidence").value],
+      ["Additional Information", document.getElementById("note").value],
+      ["Consent", document.getElementById("consent").checked ? "Yes" : "No"]
+    );
+
+    const csv = rows.map(r => r.map(v => '"' + String(v ?? "").replace(/"/g, '""') + '"').join(",")).join("\r\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "candidate-skill-assessment.csv";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showStatus("info", "CSV file exported successfully.");
+  });
+
+  // Clear Form Modal Handling
+  const confirmModal = document.getElementById("confirmModal");
+  document.getElementById("reset").addEventListener("click", () => {
+    confirmModal.classList.add("open");
+  });
+
+  document.getElementById("cancelResetBtn").addEventListener("click", () => {
+    confirmModal.classList.remove("open");
+  });
+
+  document.getElementById("confirmResetBtn").addEventListener("click", () => {
+    document.querySelectorAll("input, textarea").forEach(el => {
+      if (el.type === "radio" || el.type === "checkbox") {
+        el.checked = false;
+      } else {
+        el.value = "";
+      }
+    });
+    document.querySelectorAll("select").forEach(el => el.selectedIndex = 0);
+    otherRoleField.hidden = true;
+    otherRoleInput.required = false;
+    statusBox.className = "status-box";
+    statusBox.textContent = "";
+    confirmModal.classList.remove("open");
+  });
+
+  confirmModal.addEventListener("click", (e) => {
+    if (e.target === confirmModal) confirmModal.classList.remove("open");
+  });
+</script>
+</body>
+</html>
