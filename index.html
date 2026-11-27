@@ -453,10 +453,10 @@
     background: #e2e8f0;
   }
 
-  .danger {{
+  .danger {
     background: #fef2f2;
     color: var(--red);
-  }}
+  }
 
   .danger:hover:not(:disabled) {
     background: #fee2e2;
@@ -672,10 +672,45 @@
     color: var(--navy);
   }
 
+  .jd-meta-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0 6px;
+  }
+
+  .meta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 99px;
+  }
+
+  .meta-badge.arrangement {
+    background: var(--blue-soft);
+    border: 1px solid #b8daf5;
+    color: var(--navy);
+  }
+
+  .meta-badge.location {
+    background: var(--gold-light);
+    border: 1px solid var(--gold-border);
+    color: #8a6408;
+  }
+
+  .meta-badge.duration {
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    color: var(--indigo);
+  }
+
   .jd-content .jd-intro {
     color: var(--muted);
     font-size: 13px;
-    margin: 0;
+    margin: 4px 0 0;
   }
 
   .sync-pill {
@@ -971,7 +1006,8 @@
         <div class="jd-top-bar">
           <div>
             <h2 id="jdTitle">Select a position</h2>
-            <p class="jd-intro">Each job description includes Responsibilities, Qualifications, Required Skills, and Preferred Skills.</p>
+            <div class="jd-meta-row" id="jdMetaRow"></div>
+            <p class="jd-intro">Each job description includes Work Arrangement, Location, Contract Duration, Responsibilities, Qualifications, Required Skills, and Preferred Skills.</p>
             <div class="sync-pill" id="syncStatus">
               <span class="sync-dot local"></span>
               <span>Built-in JD list (connect Google Sheet ID to update live)</span>
@@ -1001,19 +1037,22 @@
   // =========================================================================
   // 1. ตั้งค่า Google Apps Script Web App URL (สำหรับส่งข้อมูลผู้สมัคร + CV)
   // =========================================================================
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw9L22ZeX599Llt7UQ44Ln7F8aTL2Opgo36wLgDthe2B51wTrvNRUXfwqY3VU2IXuZ13Q/exec";
+  const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
 
   // =========================================================================
   // 2. ตั้งค่า Google Sheets ID (สำหรับอัปเดต JD ได้ตลอดเวลาโดยไม่ต้องแก้โค้ด)
-  // วิธีดู Sheet ID: เปิดไฟล์ Google Sheets ดูรหัสใน URL ระหว่าง /d/ และ /edit
-  // เช่น https://docs.google.com/spreadsheets/d/1AbCdEfGhIjKlMnOpQrStUvWxYz/edit
+  // โครงสร้างคอลัมน์ใน Sheet (แถวที่ 1):
+  // A: Status | B: Work Arrangement | C: Location | D: Contract Duration | E: Role | F: Responsibilities | G: Qualifications | H: Required Skills | I: Preferred Skills
   // =========================================================================
-  const JD_GOOGLE_SHEET_ID = "1IGQGYSs-ibfkI6FbbcqEs9oVQ8dgNFxT0B2AS-TjMC4";
-  const JD_GOOGLE_SHEET_TAB = "JD";
+  const JD_GOOGLE_SHEET_ID = "YOUR_GOOGLE_SHEET_ID";
+  const JD_GOOGLE_SHEET_TAB = "Sheet1";
 
-  // ข้อมูล JD สำรองเริ่มต้น (จะแสดงทันทีและอัปเดตทับอัตโนมัติเมื่อเชื่อมต่อ Google Sheet)
+  // ข้อมูล JD สำรองเริ่มต้น (รองรับ Work Arrangement, Location, Contract Duration)
   const fallbackJdData = {
     "Project Manager": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Lead projects from initiation through delivery, managing scope, schedule, budget, resources, and quality.",
         "Coordinate cross-functional teams, vendors, and stakeholders; communicate progress, risks, issues, and dependencies.",
@@ -1037,6 +1076,9 @@
       ]
     },
     "Product Owner": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Define product vision, goals, roadmap, and measurable outcomes with stakeholders.",
         "Own and prioritize the product backlog based on customer value, business impact, and delivery effort.",
@@ -1060,6 +1102,9 @@
       ]
     },
     "Project Coordinator": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Support project managers with plans, schedules, meeting coordination, and follow-up actions.",
         "Track milestones, deliverables, dependencies, risks, and issue status.",
@@ -1083,6 +1128,9 @@
       ]
     },
     "Business System Analyst": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Analyze business processes and translate needs into system requirements and functional specifications.",
         "Facilitate workshops and interviews; document workflows, use cases, user stories, and business rules.",
@@ -1106,6 +1154,9 @@
       ]
     },
     "Business Analyst": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Understand business objectives, challenges, and stakeholder needs.",
         "Gather, analyze, and document business requirements, processes, and improvement opportunities.",
@@ -1129,6 +1180,9 @@
       ]
     },
     "System Analyst": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Analyze system requirements and define functional and technical solution specifications.",
         "Design system workflows, interfaces, data flows, and integration requirements.",
@@ -1152,6 +1206,9 @@
       ]
     },
     "Technical Lead": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Provide technical direction and guide engineers through design, development, code review, and delivery.",
         "Define technical standards, architecture decisions, and engineering best practices.",
@@ -1175,6 +1232,9 @@
       ]
     },
     "Full-Stack Developer": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Develop and maintain front-end and back-end components of web applications.",
         "Build responsive user interfaces, server-side logic, APIs, and database integrations.",
@@ -1198,6 +1258,9 @@
       ]
     },
     "Front-end Developer": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Build responsive, accessible, and user-friendly web interfaces.",
         "Translate UI/UX designs into reusable components and maintainable code.",
@@ -1221,6 +1284,9 @@
       ]
     },
     "Back-end Developer": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Design, develop, and maintain server-side applications, services, and APIs.",
         "Implement business logic, data models, integrations, and authentication/authorization.",
@@ -1244,6 +1310,9 @@
       ]
     },
     "QA Engineer / Software Tester": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Review requirements and prepare test scenarios, test cases, and test data.",
         "Execute functional, regression, integration, and exploratory tests.",
@@ -1267,6 +1336,9 @@
       ]
     },
     "QA Automation Engineer": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Design, develop, and maintain automated test frameworks and test scripts.",
         "Automate functional, regression, API, and end-to-end testing.",
@@ -1290,6 +1362,9 @@
       ]
     },
     "Data Engineer": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Design, build, and maintain scalable data pipelines and data integration processes.",
         "Develop ETL/ELT workflows to ingest, transform, validate, and publish data.",
@@ -1313,6 +1388,9 @@
       ]
     },
     "Data Analyst": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Collect, clean, analyze, and interpret data to answer business questions.",
         "Build dashboards, reports, and recurring performance metrics.",
@@ -1336,6 +1414,9 @@
       ]
     },
     "BI Developer": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Design, develop, and maintain BI solutions, semantic models, dashboards, and reports.",
         "Gather reporting requirements and translate them into reliable data models and visualizations.",
@@ -1359,6 +1440,9 @@
       ]
     },
     "Infrastructure & Security Engineer": {
+      "Work Arrangement": "Hybrid",
+      "Location": "Bangkok, Thailand",
+      "Contract Duration": "Full-time / Permanent",
       "Responsibilities": [
         "Implement, operate, and maintain IT infrastructure, networks, servers, cloud environments, and security controls.",
         "Monitor system availability, performance, capacity, and security events.",
@@ -1388,6 +1472,7 @@
 
   const jdListEl = document.getElementById("jdRoleList");
   const jdTitleEl = document.getElementById("jdTitle");
+  const jdMetaRowEl = document.getElementById("jdMetaRow");
   const jdSectionsEl = document.getElementById("jdSections");
   const jdSearchEl = document.getElementById("jdSearch");
   const syncStatusEl = document.getElementById("syncStatus");
@@ -1426,6 +1511,8 @@
   }
 
   // ดึงข้อมูล JD ล่าสุดจาก Google Sheets อัตโนมัติ
+  // โครงสร้างคอลัมน์ (A-I):
+  // A: Status | B: Work Arrangement | C: Location | D: Contract Duration | E: Role | F: Responsibilities | G: Qualifications | H: Required Skills | I: Preferred Skills
   async function loadJdFromGoogleSheets() {
     if (!JD_GOOGLE_SHEET_ID || JD_GOOGLE_SHEET_ID === "YOUR_GOOGLE_SHEET_ID") {
       return;
@@ -1442,16 +1529,22 @@
       rows.forEach(row => {
         const cells = row.c || [];
         const status = (cells[0]?.v ?? "").toString().trim().toLowerCase();
-        const role = (cells[1]?.v ?? "").toString().trim();
+        const workArrangement = (cells[1]?.v ?? "").toString().trim();
+        const location = (cells[2]?.v ?? "").toString().trim();
+        const contractDuration = (cells[3]?.v ?? "").toString().trim();
+        const role = (cells[4]?.v ?? "").toString().trim();
 
         if (!role || role.toLowerCase() === "role" || role.toLowerCase() === "position") return;
         if (status && status !== "open" && status !== "active" && status !== "yes") return;
 
         sheetJd[role] = {
-          "Responsibilities": parseLines(cells[2]?.v),
-          "Qualifications": parseLines(cells[3]?.v),
-          "Required Skills": parseLines(cells[4]?.v),
-          "Preferred Skills": parseLines(cells[5]?.v)
+          "Work Arrangement": workArrangement,
+          "Location": location,
+          "Contract Duration": contractDuration,
+          "Responsibilities": parseLines(cells[5]?.v),
+          "Qualifications": parseLines(cells[6]?.v),
+          "Required Skills": parseLines(cells[7]?.v),
+          "Preferred Skills": parseLines(cells[8]?.v)
         };
       });
 
@@ -1472,10 +1565,34 @@
     if (!jdData[role]) return;
     activeRole = role;
     jdTitleEl.textContent = role;
+    jdMetaRowEl.innerHTML = "";
     jdSectionsEl.innerHTML = "";
     const sections = jdData[role];
 
-    Object.entries(sections).forEach(([heading, items]) => {
+    // แสดงป้าย Work Arrangement, Location, และ Contract Duration ด้านบนใต้ชื่อตำแหน่ง
+    if (sections["Work Arrangement"]) {
+      const waBadge = document.createElement("span");
+      waBadge.className = "meta-badge arrangement";
+      waBadge.textContent = "Work Arrangement: " + sections["Work Arrangement"];
+      jdMetaRowEl.appendChild(waBadge);
+    }
+    if (sections["Location"]) {
+      const locBadge = document.createElement("span");
+      locBadge.className = "meta-badge location";
+      locBadge.textContent = "Location: " + sections["Location"];
+      jdMetaRowEl.appendChild(locBadge);
+    }
+    if (sections["Contract Duration"]) {
+      const durBadge = document.createElement("span");
+      durBadge.className = "meta-badge duration";
+      durBadge.textContent = "Contract Duration: " + sections["Contract Duration"];
+      jdMetaRowEl.appendChild(durBadge);
+    }
+
+    // แสดงหัวข้อรายการที่เป็น Bullet Points
+    const listSections = ["Responsibilities", "Qualifications", "Required Skills", "Preferred Skills"];
+    listSections.forEach(heading => {
+      const items = sections[heading];
       if (!items || items.length === 0) return;
       const section = document.createElement("section");
       section.className = "jd-section";
@@ -1516,7 +1633,7 @@
     renderRoleList(e.target.value);
   });
 
-  // ปุ่มกดสมัครตำแหน่งนี้ทันทีจากหน้า JD (สลับไปหน้าฟอร์มและเลือกตำแหน่งให้อัตโนมัติ)
+  // ปุ่มกดสมัครตำแหน่งนี้ทันทีจากหน้า JD
   document.getElementById("applyThisRoleBtn").addEventListener("click", () => {
     roleSelect.value = activeRole;
     otherRoleField.hidden = true;
@@ -1658,7 +1775,7 @@
     });
   }
 
-  // Submit Application (ใช้ mode: "no-cors" เพื่อแก้ปัญหา Failed to fetch บนมือถือและเบราว์เซอร์ทุกชนิด)
+  // Submit Application (mode: "no-cors")
   document.getElementById("submitDrive").addEventListener("click", async () => {
     if (!validateForm()) return;
 
